@@ -1,0 +1,12 @@
+<%= render 'share/header', content: "Create Categories" %>
+
+<%= render partial: 'share/error', locals: {obj: @category} %>
+
+<div class="well">
+  <%= form_for @category do |f| %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <br/>
+    <%= f.submit class: "btn btn-primary btn-small" %>
+  <% end %>
+</div>

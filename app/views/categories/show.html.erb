@@ -1,0 +1,4 @@
+<% all_posts = link_to("All Posts", posts_path) %>
+<%= render "share/header", content: "#{all_posts} &raquo; #{@category.name}".html_safe %>
+
+<%= render @posts %>

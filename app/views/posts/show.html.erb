@@ -1,2 +1,29 @@
-<p><%= link_to "edit this post", edit_post_path(@post) %></p>
-<%= render @post %>
+<p>
+  <%= render @post.categories %>
+  <span class="pull-right">[<%= link_to "edit this post", edit_post_path(@post) %>]</span>
+</p>
+
+
+<%= render partial: "share/header", locals: {content: @post.title} %>
+
+<p>
+  <%= @post.description %>
+  <hr>
+</p>
+
+<%= render 'share/error', obj: @comment %>
+
+<% if logged_in? %>
+  <%= form_for @comment, url: post_comments_path(@post) do |f| %>
+    <%= f.label :body, "Leave a comment" %>
+    <%= f.text_area :body, rows: 5 %>
+    <br/>
+    <%= f.submit class: "btn btn-primary" %>
+  <% end %>
+<% end %>
+
+<% if @post.comments.any? %>
+  <h4>Comments</h4>
+<% end %>
+
+<%= render @post.comments %>
