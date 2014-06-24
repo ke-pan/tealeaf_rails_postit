@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :login_test
 
   def create
-    @post = Post.find(params[:post_id])
+    @post = Post.find_by(slug: params[:post_id])
     @comment = Comment.new(params.require(:comment).permit(:body))
     @comment.post = @post
     @comment.user = current_user
@@ -17,9 +17,14 @@ class CommentsController < ApplicationController
   end
 
   def vote
-    comment = Comment.find(params[:id])
-    Vote.create(vote: params[:vote], creator: current_user, voteable: comment)
-    redirect_to :back
+    @comment = Comment.find(params[:id])
+    Vote.create(vote: params[:vote], creator: current_user, voteable: @comment)
+
+    respond_to do |res|
+      res.html {redirect_to :back}
+      res.js
+    end
+    
   end
 
 end

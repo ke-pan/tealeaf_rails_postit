@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: [:edit, :show, :update]
-  before_action :same_user, only: [:edit, :update]
+  before_action :validate_user, only: [:edit, :update]
 
   def new
     @user = User.new()
@@ -39,19 +39,12 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit([:username, :password])
+    params.require(:user).permit([:username, :password, :timezone])
   end
 
   def set_user
-    @user = User.find(params[:id])
-  end
-
-  def same_user
-    unless @user == current_user
-      flash[:error] = "You can't do that."
-      redirect_to root_path
-    end
-    
+    # binding.pry
+    @user = User.find_by(:slug => params[:id])
   end
 
 end

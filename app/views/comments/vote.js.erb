@@ -1,0 +1,2 @@
+$('.vote_<%= @comment.id %>').attr('class', 'icon-minus vote_<%= @comment.id %>')
+$('#comment_<%= @comment.id %>_vote').html("<%= pluralize(@comment.total_votes, "vote") %>")

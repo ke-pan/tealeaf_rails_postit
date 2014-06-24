@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
 
-  before_action :login_test, except: :show
-  
+  before_action :admin_test, except: :show
+    
   def new
     @category = Category.new
   end
@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
 
   def show
     # binding.pry
-    @category = Category.find(params[:id])
+    @category = Category.find_by(:slug => params[:id])
     @posts = @category.posts
   end
 
@@ -31,11 +31,5 @@ class CategoriesController < ApplicationController
     params.require(:category).permit([:name])
   end
 
-  def login_test
-    unless logged_in?
-      flash[:error] = "Please log in first."
-      redirect_to root_path
-    end
-  end
 
 end

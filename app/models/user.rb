@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  include Sluggable
+
   has_many :posts
   has_many :comments
 
@@ -11,5 +14,12 @@ class User < ActiveRecord::Base
   def validate_password?
     password.present?
   end
+
+  def admin?
+    role == 'admin'
+  end
+
+  sluggable_column :username
+
 
 end

@@ -1,0 +1,2 @@
+$('.vote_<%= @post.to_param %>').attr('class', 'icon-minus vote_<%= @post.to_param %>')
+$('#post_<%= @post.to_param %>_vote').html("<%= pluralize(@post.total_votes, "vote") %>")

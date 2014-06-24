@@ -10,6 +10,10 @@
       <%= f.label :password %>
       <%= f.password_field :password %>
     </div>
+    <div class="control-group">
+      <%= f.label :timezone %>
+      <%= f.time_zone_select :timezone, [ActiveSupport::TimeZone['Beijing']] %>
+    </div>
     <%= f.submit (@user.new_record? ? "Sign up" : "Update profile"), class: "btn btn-primary" %>
   <% end %>
 </div>

@@ -1,13 +1,13 @@
 <div class="row">
-  <div class="well span text-center">
-    <%= link_to(vote_post_path(post, 'vote' => 'true'), method: 'post')  do %>
-      <i class="icon-arrow-up"></i>
+  <div class="well span1 text-center">
+    <%= link_to(vote_post_path(post, 'vote' => 'true'), method: 'post', remote: true)  do %>
+      <i class="icon-<%= test_vote?(post) ? 'arrow-up' : 'minus' %> vote_<%= post.to_param %>"></i>
     <% end %>
     <br/>
-    <%= pluralize(post.total_votes, "vote") %>
+      <span id="post_<%= post.to_param %>_vote"><%= pluralize(post.total_votes, "vote") %></span>
     <br/>
-    <%= link_to(vote_post_path(post, 'vote' => 'false'), method: 'post')  do %>
-      <i class="icon-arrow-down"></i>
+    <%= link_to(vote_post_path(post, 'vote' => 'false'), method: 'post', remote: true)  do %>
+      <i class="icon-<%= test_vote?(post) ? 'arrow-down' : 'minus' %> vote_<%= post.to_param %>"></i>
     <% end %>
   </div>
   <div class="well span8">

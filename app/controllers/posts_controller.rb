@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 
   before_action :set_post, only: [:show, :edit, :update, :vote]
   before_action :login_test, only: [:new, :edit, :update, :create, :vote]
+  before_action :validate_user, only: [:edit, :update]
 
   def index
     @posts = Post.all
@@ -18,7 +19,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    @post.creator = current_user # TODO: 
+    @post.creator = current_user
 
     if @post.save
       flash[:notice] = "Your post was created."
@@ -29,15 +30,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    unless current_user == @post.creator
-      flash[:error] = "You can't do this."
-      redirect_to root_path
-    end
   end
 
   def update
     if @post.update(post_params)
-      flash[:notice] = "Your post was update."
+      flash[:notice] = "Your post was updated."
       redirect_to post_path(@post)
     else
       render :edit
@@ -46,7 +43,11 @@ class PostsController < ApplicationController
 
   def vote
     vote = Vote.create(vote: params[:vote], creator: current_user, voteable: @post)
-    redirect_to :back
+    respond_to do |res|
+      res.html {redirect_to :back}
+      res.js
+    end
+    
   end
 
 private
@@ -55,7 +56,7 @@ private
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(:slug => params[:id])
   end
 
 end
